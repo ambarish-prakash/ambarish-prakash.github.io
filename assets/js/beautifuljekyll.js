@@ -4,6 +4,16 @@ let BeautifulJekyllJS = {
 
   bigImgEl : null,
   numImgs : null,
+  typewriterEl: null,
+  quoteIdx: -1,
+  quotes: [
+    'Life before Death, Strength before Weakness, Journey before Destination.', 
+    'Always remember you are braver than you believe, stronger than you seem, smarter than you think, and loved more than you know.',
+    'Any sufficiently advanced technology is indistinguishable from magic.',
+    'If good things lasted forever, would we appreciate how precious they are? - Hobbes.',
+    'Dad: Life isn\'t fair. Calvin: I know, but why isn\'t it ever unfair in my favour? ',
+    'Today you are you! That is truer than true! There is no one alive who is you-er than you!',
+  ],
 
   init : function() {
     setTimeout(BeautifulJekyllJS.initNavbar, 10);
@@ -29,6 +39,49 @@ let BeautifulJekyllJS = {
     BeautifulJekyllJS.initImgs();
 
     BeautifulJekyllJS.initSearch();
+
+    let elements = document.getElementsByClassName('typewriter');
+    if (elements.length > 0) {
+      BeautifulJekyllJS.typewriterEl = elements[0];
+      BeautifulJekyllJS.selectQuote();
+    }
+  },
+
+  selectQuote: function() {
+    //BeautifulJekyllJS.quoteIdx = (BeautifulJekyllJS.quoteIdx + 1) % BeautifulJekyllJS.quotes.length;
+    let new_idx = Math.floor((Math.random() * BeautifulJekyllJS.quotes.length));
+    if(new_idx == BeautifulJekyllJS.quoteIdx){
+      BeautifulJekyllJS.selectQuote();
+    } else {
+      BeautifulJekyllJS.quoteIdx = new_idx;
+      let selected_quote = BeautifulJekyllJS.quotes[BeautifulJekyllJS.quoteIdx];
+      BeautifulJekyllJS.typeQuote(selected_quote, 0);
+    }
+  },
+
+  typeQuote: function(quote, idx) {
+    idx++;
+    let len = quote.length + 1;
+    
+    if(idx == len) {
+      timeOut = setTimeout(BeautifulJekyllJS.untypeQuote, 2000, quote, idx);
+    } else {
+      var texx = quote.substring(0,idx);
+      $('.typewriter').text(texx);
+      timeOut = setTimeout(BeautifulJekyllJS.typeQuote, 40, quote, idx);
+    }
+
+  },
+
+  untypeQuote: function(quote, idx){
+    idx --;
+    if (idx == -1){
+      timeOut = setTimeout(BeautifulJekyllJS.selectQuote, 100);
+    } else {
+      var texx = quote.substring(0,idx);
+      $('.typewriter').text(texx);
+      timeOut = setTimeout(BeautifulJekyllJS.untypeQuote, 15, quote, idx);
+    }
   },
 
   initNavbar : function() {
