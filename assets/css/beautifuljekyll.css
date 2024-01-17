@@ -126,6 +126,16 @@ img {
   }
 }
 
+.home-desc {
+  text-align: left;
+  padding-top: 30px;
+  padding-left: 0%;
+  padding-right: 0%;
+  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 1.25rem;
+  width: 60%;
+}
+
 /* --- Navbar --- */
 
 .navbar-custom {
@@ -1090,3 +1100,4 @@ pre {
     display: inline-block;
   }
 }
+

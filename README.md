@@ -1,3 +1,8 @@
+# Ambarish Prakash
+
+Hi hi! Forked the Beautiful Jekyll Repo to create my own version :)
+
+
 # Beautiful Jekyll
 
 [![Gem Version](https://badge.fury.io/rb/beautiful-jekyll-theme.svg)](https://badge.fury.io/rb/beautiful-jekyll-theme)
