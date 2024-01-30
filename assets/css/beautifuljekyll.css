@@ -200,6 +200,31 @@ img {
   }
 }
 
+/* --- Resume Page --- */
+.resume_exp_container {
+  padding-bottom: 50px;
+}
+
+.resume_exp_title_container {
+  display: flex;
+  align-items: baseline;
+  border-bottom: 2px solid white;
+}
+
+.resume_bottom_border{
+  border-bottom: 2px solid white;
+}
+
+.resume_exp_title {
+  flex: 1;
+  text-align: left;
+  margin-right: 10px; /* Adjust as needed */
+}
+
+.resume_exp_year {
+  text-align: right;
+}
+
 /* --- Navbar --- */
 
 .navbar-custom {

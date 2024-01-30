@@ -1,0 +1,20 @@
+---
+layout: base
+---
+
+{% include header.html type="page" %}
+
+<main class="{% if page.full-width %} container-fluid {% else %} container-lg {% endif %}">
+  <div class="row">
+    <div class="col">
+      {% for experience in page.experiences %}
+        <div class="resume_exp_container">
+          <div class="resume_exp_title_container">
+            <h3 class="resume_exp_title">{{ experience.title }}</h3>
+            <span class="resume_exp_year">{{ experience.years }}</span>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</main>

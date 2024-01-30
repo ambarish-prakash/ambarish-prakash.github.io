@@ -20,7 +20,6 @@ author: Ambarish Prakash
 ###############################################
 
 navbar-links:
-  About Me: "aboutme"
   Projects: "projects"
   Resume: "resume"
 
