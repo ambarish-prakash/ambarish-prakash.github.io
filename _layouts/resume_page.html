@@ -13,6 +13,15 @@ layout: base
             <h3 class="resume_exp_title">{{ experience.title }}</h3>
             <span class="resume_exp_year">{{ experience.years }}</span>
           </div>
+          <div class="resume_exp_desc"> {{experience.description}} </div>
+          <div class="resume_exp_items">
+            <ul>
+              {% for item in experience.items %}
+                <li> {{ item.title }} </li>
+                <p class="resume_item_desc"> {{ item.description }} </p>
+              {% endfor %}
+            </ul>
+          </div>
         </div>
       {% endfor %}
     </div>

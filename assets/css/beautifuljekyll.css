@@ -211,6 +211,16 @@ img {
   border-bottom: 2px solid white;
 }
 
+.resume_exp_desc {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.resume_item_desc {
+  margin-right: 10%;
+  margin-top: 5px;
+}
+
 .resume_bottom_border{
   border-bottom: 2px solid white;
 }
