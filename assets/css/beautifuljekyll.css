@@ -235,6 +235,19 @@ img {
   text-align: right;
 }
 
+.resume_item_list {
+  margin-bottom: 10px;
+  font-size: 20px;
+}
+
+.resume_hidden {
+  display: none;
+}
+
+.toggle_button {
+  cursor: pointer;
+}
+
 /* --- Navbar --- */
 
 .navbar-custom {

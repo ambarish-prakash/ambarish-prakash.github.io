@@ -14,16 +14,23 @@ layout: base
             <span class="resume_exp_year">{{ experience.years }}</span>
           </div>
           <div class="resume_exp_desc"> {{experience.description}} </div>
-          <div class="resume_exp_items">
-            <ul>
-              {% for item in experience.items %}
+          {% if experience.item_list_title %}
+            <div class="resume_item_list">
+              <span class="toggle_button">+ {{ experience.item_list_title }} </span>
+            </div>
+            <div class="resume_exp_items resume_hidden">
+              <ul>
+                {% for item in experience.items %}
                 <li> {{ item.title }} </li>
                 <p class="resume_item_desc"> {{ item.description }} </p>
-              {% endfor %}
-            </ul>
-          </div>
+                {% endfor %}
+              </ul>
+            </div>
+          {% endif %}
         </div>
       {% endfor %}
     </div>
   </div>
 </main>
+
+<script src="{{ site.baseurl }}/assets/js/resume.js"></script>
