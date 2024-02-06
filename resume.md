@@ -16,6 +16,8 @@ experiences:
           description: Extended the previous study to further classify Cancers according to the CIMP subtype. This was done by applying the existing methodology on new datasets, as well as extension of the analysis to find further genetic pathways of interest.
         - title: Hack4Good - Base
           description: As part of the ETH Analytics Club, worked the NGO <a href="https://energy-base.org/">BASE</a> to analyze data generated from their app and provide reports that could be used by the NGO to monitor the performance. Additionally worked with them for a month to create a service to help provide this data directly to the application via REST Apis.
+        - title: Teaching Assistant - Cloud Computing Architecture
+          description: Selected to be part of the cloud computing TA team in order to help conduct exercise sessions, help redesign and manage the practical project as well as answer any student queries either in the sessions or on the online forum.
 
     - title: TradeGecko (now Intuit Inc)
       years: Aug 2019 - Oct 2021

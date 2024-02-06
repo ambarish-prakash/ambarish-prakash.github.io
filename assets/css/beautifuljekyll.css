@@ -576,6 +576,7 @@ footer .footer-custom-content {
   padding: 1.25rem 0;
   border-bottom: 1px solid #eee;
   overflow: hidden;
+  list-style-type: none;
 }
 
 @media (min-width: 768px) {
@@ -873,6 +874,12 @@ nav.top-nav-short-permanent ~ header > .intro-header.big-img {
     display: block;
     margin-bottom: 0.3125rem;
   }
+}
+
+.header-col {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  text-align: center;
 }
 
 /* --- Pagination --- */
