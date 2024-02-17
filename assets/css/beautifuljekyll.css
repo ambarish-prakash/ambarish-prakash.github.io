@@ -654,8 +654,8 @@ footer .footer-custom-content {
 }
 @media (max-width: 767px) {
   .post-preview .post-image {
-    height: 9rem;
-    width: 9rem;
+    height: 10rem;
+    width: 10rem;
   }
   .post-preview .post-image-short {
     margin-top: 0;
@@ -668,8 +668,8 @@ footer .footer-custom-content {
   display: none;
 }
 .post-preview .post-image-small img {
-  max-width: 6.25rem;
-  max-height: 6.25rem;
+  max-width: 10rem;
+  max-height: 10rem;
 }
 @media (max-width: 500px) {
   .post-preview .post-image {
@@ -1076,9 +1076,7 @@ pre {
 
 /* --- Misc blog post styles --- */
 
-.blog-post :first-child {
-  margin-top: 0;
-}
+
 
 .blog-post img {
   max-width: 100%;
@@ -1220,3 +1218,80 @@ pre {
   }
 }
 
+/* -- Slider -- */
+.megaslider {
+  display: flex;
+}
+
+.subslider {
+  width: 300px;
+  height: 200px;
+  margin: auto;
+  overflow: hidden;
+  position: relative; /* Ensure positioning context for the absolute positioning of slides */
+
+  display: flex;
+  align-items: center;
+}
+
+@media (max-width: 1100px) {
+  .subslider {
+    display: none;
+  }
+}
+
+.slider {
+  width: 600px;
+  height: 420px;
+  margin: auto;
+  overflow: hidden;
+  position: relative; /* Ensure positioning context for the absolute positioning of slides */
+
+  display: flex;
+  align-items: center;
+
+}
+
+.slide {
+  width: 100%; /* Set the width of each slide to fill the slider */
+  height: 100%; /* Set the height of each slide to fill the slider */
+  top: 0; /* Position each slide at the top of the slider */
+  left: 0; /* Position each slide at the left of the slider */
+
+  flex: 0 0 100%;
+  transition: transform 1s ease;
+
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.subslide {
+  width: 100%; /* Set the width of each slide to fill the slider */
+  height: 100%; /* Set the height of each slide to fill the slider */
+  top: 0; /* Position each slide at the top of the slider */
+  left: 0; /* Position each slide at the left of the slider */
+
+  flex: 0 0 100%;
+  transition: transform 1s ease;
+}
+
+
+.prev,
+.next {
+  cursor: pointer;
+  background-color: rgba(3,3,3,0.4);
+  color: #fff;
+  padding: 5px 10px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  text-decoration: none;
+}
+
+.prev {
+  left: 0;
+}
+
+.next {
+  right: 0;
+}
