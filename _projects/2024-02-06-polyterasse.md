@@ -106,6 +106,11 @@ Just as a pet project these are some of the goals I wanted to achieve:
 - Morph photos: I wanted to play around to morph them from one to another in a smooth way. Just to play around with other models and their representation.
 - Stylize polyterasse: With many models performing Image to Image style transfer, I wanted to try the same for some of the pictures I took.
 
+
+
+**Code** : All my code for this can be found on my [Colab notebook here!](https://colab.research.google.com/drive/1CZnFV9Mq_HgMWBTqksZ5BXVDJcQlkiqA?usp=sharing)
+
+
 Let's get into it shall we?
 
 
@@ -128,12 +133,15 @@ Training was straight forward. I ran the training for 5 epochs (due to the small
 ### Inference
 For the inference, I used the Google Photos API - [MediaItems Search](https://developers.google.com/photos/library/reference/rest/v1/mediaItems/search) in order to fetch all photos from my library in a paginated manner, and then classify them using my model.
 
+![Google Photos API request]({{'/assets/img/photosapi.png' | relative_url }}){: .mx-auto.d-block : width="420" height="500"}
+
+
 Results were unfortunately not great. A lot of unseen pictures were also being classified as pictures of Polyterasse - aka a lot of **False Positives**. In order to overcome this, I used a threshold in the final model output rather than using the argmax. This reduced the false positives to just a few. 
 
 I wanted to automatically add these classified pictures to an album in Google Photos, unfortunately the API only allows you to use the API to edit / move albums and pictures that were created via the API..... WHY GOOGLE WHY!! 
 So I just manually added the photos to an album instead :P
 
-
+The final result was an album containing all my images of Polyterassee taken in the last two years, 8 of which are shown in the Image display above :D
 
 ## Photo Morphing
 <p id="typing-text">Still typing...</p>

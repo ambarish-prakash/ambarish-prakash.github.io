@@ -1,6 +1,6 @@
 ---
 layout: resume_page
-title: Resume
+title: CV
 subtitle: My past work experiences
 experiences:
     - title: ETH Zürich
@@ -9,7 +9,7 @@ experiences:
       item_list_title: Projects
       items:
         - title: Thesis - Automatic Sleep Stage Classification
-          description: Building on the work done by the <a href="https://ise.ethz.ch/">ISE Lab</a> in 2019 called <a href="https://www.research-collection.ethz.ch/handle/20.500.11850/342836">Spindle</a>, I worked on improving the performance (accuracy and mean F1) of the model by experimenting with different State of the Art vision models such as Vision Transformers, data augmentation techniques and sequential processing layers.
+          description: Building on the work done by the <a href="https://ise.ethz.ch/">ISE Lab</a> in 2019 called <a href="https://www.research-collection.ethz.ch/handle/20.500.11850/342836">Spindle</a>, I worked on improving the performance (accuracy and mean F1) of the model by experimenting with different State of the Art vision models such as Vision Transformers, data augmentation techniques and sequential processing layers. Read more about it <a href="/projects/thesis"> here! </a>
         - title: Modyn - A platform and benchmark tool for dynamic datasets
           description: Worked as part of the team to conceptualize and start building <a href="https://dl.acm.org/doi/abs/10.1145/3578356.3592585"> Modyn </a>, a platform and benchmark tool aimed specifically to handle the problem of retraining models during continual learning. 
         - title: CPG Phenotype Methylator Study

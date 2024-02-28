@@ -330,7 +330,7 @@ img {
 }
 
 .navbar-custom .navbar-toggler[aria-expanded="true"] {
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(201, 15, 15, 0.2);
 }
 
 .dropdown-toggle::after {
@@ -910,7 +910,7 @@ nav.top-nav-short-permanent ~ header > .intro-header.big-img {
   font-weight: 800;
   letter-spacing: 1px;
   padding: 0.625rem 0.3125rem;
-  background-color: #FFF;
+  background-color: #3b3b3b;
   border-radius: 0;
   color: {{ site.text-col | default: "#404040" }};
   padding: 0.75rem 1rem;
@@ -1279,19 +1279,18 @@ pre {
 .prev,
 .next {
   cursor: pointer;
-  background-color: rgba(3,3,3,0.4);
+  background-color: #111213;
   color: #fff;
   padding: 5px 10px;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
   text-decoration: none;
 }
 
 .prev {
   left: 0;
+  top: 50%;
 }
 
 .next {
   right: 0;
+  margin-bottom: 30px;
 }
