@@ -126,9 +126,15 @@ I ran my code on Google Colab, using their free GPU servers, and my Drive mounte
 In order to train my model, I needed some positive and negative examples of pictures to feed into the model. I created two sets of images, a sub collection of polyterrasse pictures in my album as well as a larger subset of random photos in my camera roll, from other buildings to people to food.
 Overall there were 15 positive pictures and around 35 negative images. Using the `load_dataset` function you can easily load the photos into a data loader!
 
-I used Hugging Face to instantiate a pre trained image classification model. For this case I used the [Google ViT Patch 16](https://huggingface.co/google/vit-base-patch16-224) version.
+I used Hugging Face to instantiate a pre trained image classification model. For this case I used the [Google ViT Patch 16](https://huggingface.co/google/vit-base-patch16-224) version. Hugging Face has a set of AutoModels that can be instantiated with a pre defined architecture and weights. Here we instantiate the Auto model for image classification because that is what we want to achieve.
+
+![Hugging Face Model]({{'/assets/img/model_setup.png' | relative_url }}){: .mx-auto.d-block : width="550" height="150"}
 
 Training was straight forward. I ran the training for 5 epochs (due to the small data size) using the default optimizer with a LR of 5e-5 and a CrossEntropy Loss.
+
+I also played around with a weighted loss function. Hugging Face's trainers use inbuilt loss functions. To edit them you need to define your own custom loss function to override the one in the trainer. I used the standard Cross Entropy loss, but weighted it to pay more attention to the pictures of polyterasse as that is what I am interested in learning and to handle the class imbalance of my data set.
+
+![Custom Loss]({{'/assets/img/model_loss.png' | relative_url }}){: .mx-auto.d-block : width="550" height="200"}
 
 ### Inference
 For the inference, I used the Google Photos API - [MediaItems Search](https://developers.google.com/photos/library/reference/rest/v1/mediaItems/search) in order to fetch all photos from my library in a paginated manner, and then classify them using my model.
@@ -143,7 +149,32 @@ So I just manually added the photos to an album instead :P
 
 The final result was an album containing all my images of Polyterassee taken in the last two years, 8 of which are shown in the Image display above :D
 
+![Polyterasse Album]({{'/assets/img/inference_result.png' | relative_url }}){: .mx-auto.d-block : width="550" height="300"}
+
 ## Photo Morphing
+I wanted to play around with these images a bit more and tried to form a gif of them morphing from one to another. In order to do that I first trained an Auto Encoder to find the representation space, and then traverse this representation space in order to morph from one picture to another.
+
+### Auto Encoder
+I used a convolutional auto encoder in order to find the representation space for these images as well as generate new intermediate representations. I took a subset of 16 different polyterasse images from my album and used them as the training set. Each image was used as the input and label, and MSE loss between the input and model output helped the model learn the correct representation. With around 200 epochs with an LR of 5e-4, the model was able to learn to regenerate the images quite well. 
+
+![Autoencoder Output]({{'/assets/img/ae_out.png' | relative_url }}){: .mx-auto.d-block : width="550" height="200"}
+
+Now that I had learned the latent representation space, I could traverse the latent representation from one image to another and generate the intermediate images. So give the latent representations (l1 and l2) of two images (i1 and i2), I could move from l1 -> l2 by using a partial sum of the two like l3 = α*l1 + (1-α)*l2. Using this l3 value I could pass that into the auto encoder to decode that and generate an intermediate image. 
+
+![Autoencoder Traversal]({{'/assets/img/ae_traversal.png' | relative_url }}){: .mx-auto.d-block : width="650" height="200"}
+
+
+Using a set of 10 intermediate images, I took 5 different polyterasse pictures and then generated a gif looping through each of these images. The final output is as follows. 
+
+![Autoencoder Gif]({{'/assets/img/poly_phases.gif' | relative_url }}){: .mx-auto.d-block : width="380" height="250"}
+
+However this result was not as smooth as expected. The intermediate images looked very much like I just overlayed the two images and the parts never morphed cleanly. I would need to try something different. 
+
+### Variational Auto Encoder
+
+One point is that the generation of images is very mixed and not as continous. Variational Auto Encoders help solve that as they learn the latent space as a distribution instead of just a latent vector and hence can generate a more smoother image. 
+
+
 <p id="typing-text">Still typing...</p>
 
  <script>
