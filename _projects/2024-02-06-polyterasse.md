@@ -158,6 +158,9 @@ I wanted to play around with these images a bit more and tried to form a gif of 
 I used a convolutional auto encoder in order to find the representation space for these images as well as generate new intermediate representations. I took a subset of 16 different polyterasse images from my album and used them as the training set. Each image was used as the input and label, and MSE loss between the input and model output helped the model learn the correct representation. With around 200 epochs with an LR of 5e-4, the model was able to learn to regenerate the images quite well. 
 
 ![Autoencoder Output]({{'/assets/img/ae_out.png' | relative_url }}){: .mx-auto.d-block : width="550" height="200"}
+<div style="text-align: center;">
+    <em>Original image on the left and regenerated image on the right</em>
+</div>
 
 Now that I had learned the latent representation space, I could traverse the latent representation from one image to another and generate the intermediate images. So give the latent representations (l1 and l2) of two images (i1 and i2), I could move from l1 -> l2 by using a partial sum of the two like l3 = α*l1 + (1-α)*l2. Using this l3 value I could pass that into the auto encoder to decode that and generate an intermediate image. 
 
@@ -174,8 +177,53 @@ However this result was not as smooth as expected. The intermediate images looke
 
 One point is that the generation of images is very mixed and not as continous. Variational Auto Encoders help solve that as they learn the latent space as a distribution instead of just a latent vector and hence can generate a more smoother image. 
 
+A few changes were to be made:
+- I changed the latent space to just a 128 dimension vector. I reshaped the final output of the convolution encoder to a 128 length vector using a linear layer. In the decoder I used another linear layer to convert the latent representation back to the dimensions of the convolution output.
+- The latent representation now has two vectors, one for the mean and the one for the log variance. model.encode(img) now returns mean and logvar of the latent representation of the image.
+- The loss function now has another section. In addition to the reconstruction loss (MSE), we also want to minimize the distance (KL Divergence) between the learned distribution of the latent space with the actual representation. We do this by maximizing the ELBO or the estimated lower bound. The loss now becomes L = MSE - ELBO, which we then minimize.
 
-<p id="typing-text">Still typing...</p>
+Using a VAE we now get another model with smoother intermediate images.
+
+
+### Navigating the latent space
+
+Moving directly from one representation to another seems to lead to messy intermediate images. To demonstrate this we try editing a single dimension in the latent space up and down. 
+
+When we take any dimension of the latent representation and move its value up or down, we see the generated images are messy.
+
+![Latent Space Dimension Traversal]({{'/assets/img/latent_space_dim.png' | relative_url }}){: .mx-auto.d-block : width="750" height="400"}
+<div style="text-align: center;">
+    <em>Decreasing (left) and increasing (right) of a single dimension in the latent space. In order, using dimension 58, 102 and 81.</em>
+</div>
+
+
+Instead we want to find more meaningful directions to move the dimensions through. We do this by using PCA to find the most important vectors to move along. Principal Component Analysis or PCA, helps to identify the directions that explain the maximum variation between different values.
+
+One drawback with out dataset is that we only have 16 images. Hence we have the latent space of 16 images, giving us a 16 x 128 matrix. Using PCA on this, we can get a max of 16 eigenvectors to explain the variation.
+
+After performing PCA and getting the 16 eigenvectors, we can see the effect of the different principal components by looking at the eigenvalues for these different values. We can plot this in a 'Scree plot' that visually uses the contributions of the different eigen vectors to the value. 
+
+![Scree Plot]({{'/assets/img/scree.png' | relative_url }}){: .mx-auto.d-block : width="350" height="200"}
+
+Ideally we want a few components to explain a lot of the variance. However in this case, we see the first component explains ~15% of the variance and the next 14 components explain the remainig 85% of the variance almost equally.
+
+Still, we have a better direction to move along the latent space. If we look at the what happens when we move along the first three principal components, we see that each of the components seem to control a feature of the image better.
+
+![Latent Space Dimension Traversal]({{'/assets/img/latent_space_pca.png' | relative_url }}){: .mx-auto.d-block : width="750" height="400"}
+<div style="text-align: center;">
+    <em>Decreasing (left) and increasing (right) of the latent representation along a principal component. In order from top to bottom - the first, second and then third principal component.</em>
+</div>
+
+The first component looks to control the brightness in the image (between dark and bright, or more so night and day). The second and third seem to control the saturation as well as some structure shape at the bottom of the image. Trying to use these components to move along and generate the intermediate images we get a morph gif as below.
+
+![Autoencoder Gif]({{'/assets/img/poly_morph_2.gif' | relative_url }}){: .mx-auto.d-block : width="380" height="250"}
+
+Unfortunately the morphing is still unclear and messy. I traversed the latent space once per eigen vector, hence there are now 15 intermediate images as compared to just 5 before and hence this might seem a bit smoother. However it does not capture the smooth morphing I would like to achieve. Still work to be done.
+
+
+Back to the drawing board :)
+
+To be continued....
 
  <script>
     function simulateTyping() {
@@ -187,7 +235,7 @@ One point is that the generation of images is very mixed and not as continous. V
         if (dots.length > 3) {
             dots = ''; // Reset dots when it reaches 4
         }
-        typingText.textContent = 'Still typing' + dots; // Update text with dots
+        typingText.textContent = 'Still working on it' + dots; // Update text with dots
         }, 500); // Adjust the typing speed (milliseconds)
     }
 

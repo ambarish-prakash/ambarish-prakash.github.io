@@ -1294,3 +1294,7 @@ pre {
   right: 0;
   margin-bottom: 30px;
 }
+
+img + em {
+  text-align: center;
+}
