@@ -52,12 +52,72 @@ Looking at the boxes we can see that the OCR extraction had a lot of issues. The
 
 I needed a different method with better control in order to solve this. 
 
-# TO DO
-I still need to type out these sections. Come back in a bit and it should be done.
+# Manual Extraction and Classification
+
+To have slightly better control of the character recognition, I knew I did not want to pass the entire page or an entire line to Tesseract. Instead the next option would be to manually classify this. I knew it would be very easy to write a simple CNN to classify the characters into F or O or X (a multi class classification problem). The only thing would be to extract the letters out individually. 
+
+We can break the problem into four steps:
+<ol>
+    <li> Extract Characters: Need a way to extract individual characters from the page. There are 32 rows of 20 characters each, so 640 characters per page.  </li>
+    <li> Order Characters: Having 640 characters is good, but I needed to maintain the order they were extracted on the page. </li>
+    <li> Classify Characters: Classify each character into F, O or X and generate a 2d array of these characters. </li>
+    <li> Array Search: Iterate through the array to find an occurence of the word 'FOX' in any of the 8 possible directions. </li>
+</ol>
+
+# Extract Characters
+
+To do this, I used CV2 to extract the contours from the page. Now due to the picture quality (natural light and shading when taking the picture) and preprocessing (mainly thresholding), a lot of contours (around a 1000) would be extracted per image. 
+
+![Contour Extraction]({{'/assets/img/ftf/ftf_contours.jpg' | relative_url }}){: .mx-auto.d-block : width="800" height="400"}
+<div style="text-align: center;">
+    <em>Contour extraction. Left: Extracted contours displayed on the page. Right: Individual contours.</em>
+</div>
+
+Using the 'boundingRect' function in cv2, we can extract a bounding box for the contours. Looking at the extracted contours above, we see that since the thresholding is high, we end up breaking up some characters into multiple contours. However reducing the threshold value introduces a lot of noise into the image which we want to avoid. Hence I needed a couple of ways to fix this.
+
+<div style="margin-left: 30px;">
+<b>Filtering Invalid Contours:</b>
+<br>
+Sometimes some noisy parts would also be detected. To handle this, I removed any bounding boxes that were too close to the page edges (x or y co-ord very close to 0 or page limits) or contours that had a very small area. To get the area for the contours, I used cv2's 'contourArea' function. 
+<br><br>
+<b>Merging Contour Bounding Boxes:</b>
+<br>
+What I wanted was a single bounding box per character. However for example, since the thin part between the sides of an O got split into two, I would end up with two contours close together, each containing part of the O. To fix this I used a function to merge the bounding boxes of contours that were close together.
+
+After extracting all bounding boxes from each contour, I would check the distance of it (its x,y co-ords) to other boxes. If this value was below a given threshold (I set it to 50), I would remove it. Usually it was noise, but in case it was part of a letter, then it was small enough that the classifier should still be able to identify the character. 
+
+</div>
+
+With these two steps, I was able to get the bounding boxes of all 640 characters quite clearly more often than not. I normally would get more than 640 (a couple more boxes for the page number at the bottom) but I would take only the first 640 boxes.
+
+![Merged Contour Bounding Boxes]({{'/assets/img/ftf/ftf_contours_merged.jpg' | relative_url }}){: .mx-auto.d-block : width="700" height="100"}
+<div style="text-align: center;">
+    <em>Merged Contour Bounding Boxes.</em>
+</div>
+
+# Order Characters
+TO DO
+
+# Character Classification
+Now that I could extract the characters, I needed to be able to classify each of these characters into the letter F, O or X. To do this, I used an simple CNN that I trained using Supervised learning. 
+
+First I took part of a page and extracted all the characters, resized them to 64x64 and saved them to a directory. I then created a CSV file to label each of the images. Creating a custom dataset, I was able to load the data using Pytorch's Dataset and DataLoader, which I then divided 80/20% into train and test sets. 
+
+I used a simple CNN with 2 convolution layers (along with max pooling and activation) followed by 2 linear layers that overall converted a 1x64x64 image into a 1x3 output which was the logits for each of the classes - 'F', 'O' or 'X'. 
+
+Training the model over a few epochs, I was able to achieve a 0 loss and a 100% accuracy on the test set. However while testing I realized that some broken Fs were being classified as Os. I enhanced the training dataset by doing the same with a full page (640 characters) and retrained the model and was able to correctly classify all the characters.
+
+![CNN CLassifier Training]({{'/assets/img/ftf/ftf_classifier.jpg' | relative_url }}){: .mx-auto.d-block : width="400" height="200"}
+<div style="text-align: center;">
+    <em>FOX Classifier Test Accuracy</em>
+</div>
+
+# Grid Search
+Given the previous steps, we now have a 2d array representing a page. We just need to loop through the array, and given any 'F', search its neighbours in all 8 directions for the letters O and X in that sequence. If we do, we have a hit, otherwise continue the loop. 
 
 
 # Final Solution
-After running this on a lot of pages, I finally got a hit on the fox. Here is the solution along with hints in case you want to try and solve it manually.
+After running this on a lot of pages, I finally got a hit on the fox!! Here is the solution along with hints in case you want to try and solve it manually.
 
 <details style="margin-bottom: 20px;">
   <summary>Spoiler Alert: Hint 1 - Which quarter of the book</summary>
