@@ -96,7 +96,32 @@ With these two steps, I was able to get the bounding boxes of all 640 characters
 </div>
 
 # Order Characters
-TO DO
+Using the above I was able to get 640 character boxes (each defined by an x,y along with a height and width). However I needed to arrange them in the correct order as on the page so that I could recreate the grid exactly. 
+
+<b>Sorting:</b>
+<br>
+My first idea was to sort the boxes according to their x and y co-ordinates. I tried sorting the array using the sorting order as 'box: box.y * img_width + box.x'. This should have sorted the boxes from top left to bottom right. However since the contour detection would give different boxes, the same row could have boxes with positions A-(10,20), B-(80,21), C-(150,19) and so on. So even though it should be in the order A,B,C based on the x co-ord, since the y co-ord of C is less than A, the sorted order ends up being C,A,B.
+
+<b>2 Step Sorting:</b>
+<br>
+To try and fix that I tried a 2 step sorting process. First I would sort it all by y co-ords. Then since I knew the first 20 boxes would belong to the first row and ideally should ahve similar y values (within a small range) while the second row should have y-values much greater than the first row. Hence after my first sort, I could then take each set of 20 boxes and sort them as they ideally should be in the same row.
+
+This too failed on some special cases. Since the images I took were not perfect, it was possible for the page to be curved and hence it was possible that some boxes in the 2nd row could have smaller y values than boxes in the first row. Same for the columns.
+
+![Sorting Issues]({{'/assets/img/ftf/ftf_sort_issue.jpg' | relative_url }}){: .mx-auto.d-block : width="800" height="220"}
+<div style="text-align: center;">
+    <em>Boxes in the 2nd row having a y co-ordinate lower than some in the 1st row.</em>
+</div>
+
+<b>Special Sorting:</b>
+<br>
+I knew I would have to do something different. Hence I built my own sorting based on the fact that boxes in a given row would always have an x value higher than its previous neighbour, and would be the closest 'unseen / unmarked' box to its neighbour. 
+
+I kept a list of all boxes I had already sorted (initially an empty list). First (Step i) I found the top leftmost box. This could be done by taking the first 25 boxes with the lowest y value that have not been seen yet, and then out of them find the box with the lowest x co-ordinate.
+
+Adding it to the list, I iterated through the remaining boxes to find the next box, i.e, the one that had a greater x co-ord value, had a y-cord value within a limit to the current box and then had the shortest distance. After finding 20 such 'next' boxes I knew I had a row, and would start again Step 'i' to find the next row.
+
+Not the cleanest code, but gets the job done very well :\)
 
 # Character Classification
 Now that I could extract the characters, I needed to be able to classify each of these characters into the letter F, O or X. To do this, I used an simple CNN that I trained using Supervised learning. 
