@@ -121,7 +121,7 @@ I kept a list of all boxes I had already sorted (initially an empty list). First
 
 Adding it to the list, I iterated through the remaining boxes to find the next box, i.e, the one that had a greater x co-ord value, had a y-cord value within a limit to the current box and then had the shortest distance. After finding 20 such 'next' boxes I knew I had a row, and would start again Step 'i' to find the next row.
 
-Not the cleanest code, but gets the job done very well :\)
+Not the cleanest code, but gets the job done very well :)
 
 # Character Classification
 Now that I could extract the characters, I needed to be able to classify each of these characters into the letter F, O or X. To do this, I used an simple CNN that I trained using Supervised learning. 
