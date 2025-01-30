@@ -3,8 +3,18 @@ layout: resume_page
 title: CV
 subtitle: My past work experiences
 experiences:
-    - title: ETH Zürich
-      years: Oct 2021 - Jan 2024
+    - title: Data Scientist @ CPNet
+      years: Nov 2024 - Current
+      description: Worked as a part time data scientist in the company in order to experiment and trial proof of concept research with more complex models, as well as some exploring other innovative research ideas.
+      item_list_title: Projects
+      items:
+        - title: Research - Benchmark the effectiveness of sequential data models.
+          description: Aim was to research with sequential models such as LSTMs in order to predict outputs using batches. This involved batching input data, as well as comparing the prediction performance as well as usability (training and inference time). Setup an experiment flow running the training on Modal and logging results to WandB.
+        - title: Research Sampling Techniques
+          description: There is a part where a given state space needs to be explored for possible solutions. In order to achieve greatest coverage, random sampling is currently used, which however becomes weaker once conditions are applied on the state space variables. Aim was to benchmark and PoC additional sampling techniques to improve sample generation.
+
+    - title: Masters @ ETH Zürich
+      years: Oct 2021 - Apr 2024
       description: "Completed my Masters Degree in Computer Science at ETH Zürich (5.4/6 CGPA), with a major in Machine Intelligence and a Minor in Data Management Systems. Though it was my first foray into Atrificial Intelligence, I've been constantly learning more about this field by studying different courses and working on various projects hands on. Equally interesting I've studied different systems for the management of data from cloud based systems to large scalable storage and processing systems like hadoop and spark."
       item_list_title: Projects
       items:
