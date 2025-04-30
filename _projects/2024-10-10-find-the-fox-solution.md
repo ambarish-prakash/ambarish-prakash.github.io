@@ -1,7 +1,7 @@
 ---
 layout: new_post
 title: Find The Fox
-subtitle: OCR and Digital Text Recognition
+subtitle: Word Search Solution Using OCR and Digital Text Recognition
 author: Ambarish Prakash
 ---
 
@@ -9,7 +9,7 @@ author: Ambarish Prakash
 
 <div style="display: grid; grid-template-columns: 150px auto; gap: 10px;">
   <img src="{{'/assets/img/ftf/cover.jpg' | relative_url }}" alt="Cover" style="width:150px; height:200px;">
-  <p>For those of you who have not heard of it, let me be the one to introduce you to the amazing book 'Find The Fox', by Alex Cheddar.  Its basically a 200 page word search where in all the pages, there is only ONE 3 letter word to find haha. Alex describes the hunt as 'finding a needle in a haystack, if the haystack was made entirely of needles.' and I couldn't think of a more apt description.</p>
+  <p>For those of you who have not heard of it, let me be the one to introduce you to the amazing book 'Find The Fox', by <a href="https://alexcheddar.com">Alex Cheddar</a>.  Its basically a 200 page word search where in all the pages, there is only ONE 3 letter word to find haha. Alex describes the hunt as 'finding a needle in a haystack, if the haystack was made entirely of needles.' and I couldn't think of a more apt description.</p>
 </div>
 
 
@@ -18,9 +18,18 @@ author: Ambarish Prakash
   <img src="{{'/assets/img/ftf/ftf_p1.jpg' | relative_url }}" alt="Cover" style="width:150px; height:200px;">
 </div>
 
+### Solving the 'Find the Fox' Puzzle
 
 Sooooo...... Obviously there's got to be a better way right? Programatically it is quite easy to go through text grids. Basically in a 2d array, you can loop through each point and check the letters in all 8 directions for the word fox. The main challenge here is to get that digital grid, ie, to convert the physical pages in my hand to a 2d digital grid per page and then search for the work fox in each. 
 
+# TL;DR
+I used OpenCV and a classification network to go through every page of the "Find the Fox" puzzle book to solve the puzzle! Here's how I processed each image, detected the grid, extracted letters, and matched patterns using Python. Let's begin!
+
+PS: If you want to go straight to the solution, jump right over [here](#final-solution).
+
+<br>
+<br>
+<br>
 
 # OCR with Pytesseract
 We can use OCR to extract the text from the page to digital strings. There are already inbuilt python libraries such as pytesseract that have trained OCR models that can be used. 
@@ -39,11 +48,11 @@ Using that I could convert an image of the page into text strings. Prior to the 
 
 Post the preprocessing, we can pass the image through pytesseract to extract the characters. To do this we can use the 'image_to_string' method in pytesseract to get the string. Tesseract also has multiple page segmentation modes when identifying text, ranging from psm 3 (default) to psm 6 (assume single uniform block of text) to psm 11 (sparse text, find in any order). However the results were not ideal. For example this was the string extracted from the above image:
 
-![OCR Result]({{'/assets/img/ftf/ftf_ocr_result.jpg' | relative_url }}){: .mx-auto.d-block : width="900" height="200"}
+![Tesseract OCR Result on Find The Fox Puzzle]({{'/assets/img/ftf/ftf_ocr_result.jpg' | relative_url }}){: .mx-auto.d-block : width="900" height="200"}
 
 There are multiple issues with this. Firstly we dont get 20 characters per line. Secondly we get letters that are not F O or X such as 0 or K or r. Pytesseract also has another method called 'image_to_data' which extracts the bounding boxes as well as the corresponding string. Plotting the bounding boxes on the image we can get an idea of what is happening behind to scenes to understand our problem elements.
 
-![OCR Bounding Boxes]({{'/assets/img/ftf/ftf_pytesseract_boxes.jpg' | relative_url }}){: .mx-auto.d-block : width="800" height="200"}
+![Tesseract OCR Bounding Boxes]({{'/assets/img/ftf/ftf_pytesseract_boxes.jpg' | relative_url }}){: .mx-auto.d-block : width="800" height="200"}
 <div style="text-align: center;">
     <em>Pytesseract OCR bounding boxes.</em>
 </div>
@@ -154,7 +163,7 @@ After running this on a lot of pages, I finally got a hit on the fox!! Here is t
   <img src="{{'/assets/img/ftf/ftf_spoiler_orientation.jpg' | relative_url }}" alt="Spoiler 2" style="display: block; margin: 0 auto; width: 80px; height: 150px;">
 </details>
 <details>
-    <summary>Spoiler Alert: Solution</summary>
+    <summary>Spoiler Alert: Find the Fox Solution</summary>
   <details style="margin-left: 20px;">
     <summary>Are you sure you want to see the solution? Theres no turning back!</summary>
       The FOX is found in page 157!
@@ -162,3 +171,7 @@ After running this on a lot of pages, I finally got a hit on the fox!! Here is t
   </details>
 </details>
 <br>
+
+This was a fun challenge that combined OCR, computer vision, and nueral networks. If you're trying to solve the "Find the Fox" book and want to build your own image-based solver you can purchase the book [here](https://www.amazon.co.uk/Find-Fox-Almost-Impossible-Search/dp/1788405943?_encoding=UTF8&qid=&sr=&linkCode=sl1&tag=acheddar00-21&linkId=aae9b27a7d3eee9dd2c8ac72fbd4bdc5&language=en_GB&ref_=as_li_ss_tl), or reach out for the dataset I used. Hope you had fun reading this! 
+
+Signing out.
