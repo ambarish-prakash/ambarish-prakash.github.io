@@ -5,7 +5,7 @@ subtitle: My past work experiences
 experiences:
     - title: Data Scientist @ CPNet
       years: Nov 2024 - Current
-      description: Worked as a part time data scientist in the company in order to experiment and trial proof of concept research with more complex models, as well as some exploring other innovative research ideas.
+      description: Working as a part time data scientist in the company in order to experiment and trial proof of concept research with more complex models, as well as some exploring other innovative research ideas.
       item_list_title: Projects
       items:
         - title: Research - Benchmark the effectiveness of sequential data models.
